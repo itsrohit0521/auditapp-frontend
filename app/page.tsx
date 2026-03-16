@@ -50,7 +50,7 @@ fetch("/privacy_policy.md")
 useEffect(()=>{
 
 axios
-.get(`http://127.0.0.1:8000/framework/${framework}`)
+.get(`https://auditapp-backend.onrender.com/framework/${framework}`)
 .then(res=>{
 
 setQuestions(res.data.questions)
@@ -77,7 +77,7 @@ setLoading(true)
 try{
 
 const res=await axios.post(
-"http://127.0.0.1:8000/scan",
+"https://auditapp-backend.onrender.com/scan",
 {url}
 )
 
@@ -107,7 +107,7 @@ formatted[key]=answers[key]==="Yes"
 try{
 
 const res=await axios.post(
-"http://127.0.0.1:8000/self-assessment",
+"https://auditapp-backend.onrender.com/self-assessment",
 {
 framework,
 answers:formatted
