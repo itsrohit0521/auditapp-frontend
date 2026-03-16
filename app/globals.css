@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+/* -----------------------------
+   Base Theme
+------------------------------*/
+
+:root {
+  --background: #020617;
+  --foreground: #e5e7eb;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+}
+
+/* -----------------------------
+   Liquid Ether Background
+------------------------------*/
+
+.liquid-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+
+  background:
+    radial-gradient(circle at 30% 40%, #6366f1 0%, transparent 40%),
+    radial-gradient(circle at 70% 60%, #22d3ee 0%, transparent 40%),
+    radial-gradient(circle at 50% 80%, #a855f7 0%, transparent 40%),
+    #020617;
+
+  filter: blur(120px);
+
+  animation: liquidMove 18s infinite alternate ease-in-out;
+}
+
+/* -----------------------------
+   Animation
+------------------------------*/
+
+@keyframes liquidMove {
+
+  0% {
+    transform: translate(-10%, -10%) scale(1);
+  }
+
+  50% {
+    transform: translate(10%, 5%) scale(1.1);
+  }
+
+  100% {
+    transform: translate(-5%, 10%) scale(1);
+  }
+
+}
