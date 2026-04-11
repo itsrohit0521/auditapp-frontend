@@ -324,6 +324,14 @@ export default function Home() {
   const [privacyText, setPrivacyText] = useState("");
   const [mouse, setMouse] = useState({ x: -1000, y: -1000 }); 
 
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo(0, 0);
+    }
+  }, [tab]);
+
   /* Dashboard Scroll Physics */
   const dScrollY = useMotionValue(0);
   
@@ -464,30 +472,14 @@ export default function Home() {
   // Nav Item layout
   const NavItem = ({ id, label }: { id: any; label: string }) => (
     <motion.button
-      whileHover={{ scale: 1.02, x: 4 }}
-      whileTap={{ scale: 0.95, rotate: -1 }}
+      whileHover={{ scale: 1.03, x: 4 }}
+      whileTap={{ scale: 0.95 }}
       onClick={() => setTab(id)}
-      className={`w-full text-left px-5 py-4 rounded-2xl transition-all relative overflow-hidden flex items-center justify-between shadow-sm outline-none ${
-        tab === id ? "text-white font-medium bg-indigo-500/10 border border-indigo-500/30" : "text-slate-400 hover:text-slate-200 hover:bg-white/5"
+      className={`w-full text-left px-5 py-4 rounded-2xl transition-colors flex items-center justify-between outline-none ${
+        tab === id ? "text-white font-bold bg-white/10 border border-white/20 shadow-md" : "text-slate-400 hover:text-slate-200 hover:bg-white/5 border border-transparent"
       }`}
     >
-      {tab === id && (
-        <motion.div
-          layoutId="activeTab"
-          className="absolute inset-0 bg-gradient-to-r from-indigo-500/20 to-fuchsia-500/20 shadow-[inset_0_0_20px_1px_rgba(99,102,241,0.2)] mix-blend-screen"
-          initial={false}
-          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-        />
-      )}
-      <span className="relative z-10">{label}</span>
-      {tab === id && (
-        <motion.div
-          layoutId="activeIndicator"
-          className="relative z-10 w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_10px_2px_rgba(34,211,238,0.8)]"
-          initial={false}
-          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-        />
-      )}
+      <span>{label}</span>
     </motion.button>
   );
 
@@ -597,6 +589,7 @@ export default function Home() {
               />
               
               <div 
+                ref={scrollRef}
                 className="flex-1 overflow-x-hidden overflow-y-auto w-full p-5 md:p-10 lg:p-14 z-10 custom-scrollbar scroll-smooth box-border relative"
                 onScroll={(e) => {
                   const target = e.target as HTMLDivElement;
@@ -604,18 +597,9 @@ export default function Home() {
                   dScrollY.set(progress || 0);
                 }}
               >
-                <AnimatePresence mode="wait">
-                  
                   {/* SCANNER VIEW */}
                   {tab === "scan" && (
-                     <motion.div
-                       key="scan"
-                       initial={{ opacity: 0, x: -15 }}
-                       animate={{ opacity: 1, x: 0 }}
-                       exit={{ opacity: 0, scale: 0.97 }}
-                       transition={{ duration: 0.4 }}
-                       className="w-full flex flex-col gap-8 lg:gap-10 pb-10"
-                     >
+                     <div className="w-full flex flex-col gap-8 lg:gap-10 pb-10">
                         <div className="space-y-4">
                           <motion.div 
                             whileHover={{ rotate: [-1, 2, -1], scale: 1.05 }} 
@@ -750,19 +734,12 @@ export default function Home() {
                             </div>
                           </motion.div>
                         )}
-                     </motion.div>
+                     </div>
                   )}
 
                   {/* ASSESSMENT VIEW */}
                   {tab === "assessment" && (
-                     <motion.div
-                       key="assessment"
-                       initial={{ opacity: 0, x: -15 }}
-                       animate={{ opacity: 1, x: 0 }}
-                       exit={{ opacity: 0, scale: 0.97 }}
-                       transition={{ duration: 0.4 }}
-                       className="w-full h-full flex flex-col gap-8 pb-10"
-                     >
+                     <div className="w-full h-full flex flex-col gap-8 pb-10">
                         <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-6 pb-6 lg:pb-8 border-b border-indigo-500/20">
                           <div className="max-w-2xl">
                             <motion.div 
@@ -887,19 +864,12 @@ export default function Home() {
                             </motion.div>
                           )}
                         </AnimatePresence>
-                     </motion.div>
+                     </div>
                   )}
 
                   {/* PRIVACY VIEW (Enhanced Markdown Cards) */}
                   {tab === "privacy" && (
-                    <motion.div
-                      key="privacy"
-                      initial={{ opacity: 0, x: -15 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, scale: 0.97 }}
-                      transition={{ duration: 0.4 }}
-                      className="w-full flex flex-col gap-8 lg:gap-10 pb-20"
-                    >
+                    <div className="w-full flex flex-col gap-8 lg:gap-10 pb-20">
                       <div className="space-y-4">
                          <motion.div 
                            whileHover={{ scale: 1.05, rotate: 2 }} 
@@ -939,9 +909,8 @@ export default function Home() {
                           return null;
                         })}
                       </div>
-                    </motion.div>
+                    </div>
                   )}
-                </AnimatePresence>
               </div>
             </div>
           </motion.div>
