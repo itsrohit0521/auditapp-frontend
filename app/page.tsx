@@ -8,6 +8,8 @@ import autoTable from "jspdf-autotable";
 import LiquidBackground from "../LiquidBackground";
 import { FRAMEWORK_QUESTIONS } from "./data/frameworks";
 
+const API_URL = "https://auditapp-backend.onrender.com";
+
 /* ============================================================
    TYPES
    ============================================================ */
@@ -379,7 +381,7 @@ export default function Home() {
     }
 
     try {
-      const res = await axios.post("https://auditapp-backend.onrender.com/scan", { url: targetUrl });
+      const res = await axios.post(`${API_URL}/scan`, { url: targetUrl });
       setResult(res.data);
     } catch {
       // Fallback data if Render backend is sleeping or unreachable
@@ -442,7 +444,7 @@ export default function Home() {
     });
 
     try {
-      const res = await axios.post("https://auditapp-backend.onrender.com/self-assessment", {
+      const res = await axios.post(`${API_URL}/self-assessment`, {
         framework,
         answers: formatted,
       });
