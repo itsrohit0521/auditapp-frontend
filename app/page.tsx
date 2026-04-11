@@ -549,7 +549,7 @@ export default function Home() {
                 <h1 className="text-3xl lg:text-4xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-br from-white via-indigo-100 to-indigo-500 mb-2 drop-shadow-[0_0_10px_rgba(99,102,241,0.5)]">
                   AuditApp
                 </h1>
-                <p className="text-xs lg:text-sm text-slate-400 font-medium tracking-wide uppercase">Compliance Sandbox</p>
+                <p className="text-xs lg:text-sm text-slate-400 font-medium tracking-wide uppercase">Precision Auditing. Proven Compliance.</p>
               </motion.div>
               
               <nav className="flex flex-col gap-2 lg:gap-3 relative z-10">
@@ -617,7 +617,7 @@ export default function Home() {
                           <div className="absolute -inset-1 lg:-inset-1.5 bg-gradient-to-r from-indigo-500 via-emerald-500 to-fuchsia-500 rounded-3xl blur-lg opacity-30 group-hover:opacity-60 transition duration-1000" />
                           <motion.div 
                             whileHover={{ scale: 1.01 }}
-                            className="relative flex flex-col sm:flex-row items-center bg-black/60 backdrop-blur-xl rounded-[1.5rem] border border-indigo-500/30 overflow-hidden shadow-[inset_0_0_20px_rgba(99,102,241,0.1)] p-2 sm:p-0"
+                            className="relative flex flex-col sm:flex-row items-center bg-black/60 backdrop-blur-xl rounded-[1.5rem] border border-indigo-500/30 shadow-[inset_0_0_20px_rgba(99,102,241,0.1)] p-2 sm:p-0"
                           >
                             <div className="hidden sm:block pl-6 pr-2 text-slate-500">
                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
