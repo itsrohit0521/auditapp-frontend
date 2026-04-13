@@ -13,8 +13,15 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AuditApp",
-  description: "AuditApp - Compliance & Risk Assessment Platform",
+  title: "AuditApp - Security & Compliance Scanner",
+  description: "AuditApp scans websites for security vulnerabilities, privacy risks, and compliance issues like GDPR, HIPAA, and SOC2.",
+  keywords: [
+    "audit tool",
+    "security scanner",
+    "compliance checker",
+    "GDPR scanner",
+    "HIPAA audit"
+  ],
   icons: {
     icon: '/favicon.ico',
   },
