@@ -65,7 +65,7 @@ const LandingPage = ({ onStart, onOpenPrivacy }: { onStart: () => void, onOpenPr
         
         {/* Heavy SVG Noise Texture */}
         <div 
-          className="absolute inset-0 z-0 opacity-[0.03] mix-blend-screen pointer-events-none" 
+          className="hidden md:block absolute inset-0 z-0 opacity-[0.03] mix-blend-screen pointer-events-none" 
           style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E')" }}
         />
         
@@ -80,11 +80,11 @@ const LandingPage = ({ onStart, onOpenPrivacy }: { onStart: () => void, onOpenPr
                initial={{ scale: 0.8, opacity: 0 }}
                animate={{ scale: 1, opacity: 1 }}
                transition={{ duration: 2.5, delay: i * 0.15, ease: "easeOut" }}
-               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-indigo-600/30 md:border-indigo-600/20 mix-blend-screen"
+               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-indigo-600/30 md:border-indigo-600/20"
                style={{ 
                  width: size, 
                  height: size, 
-                 boxShadow: "inset 0 0 80px rgba(99,102,241,0.05), 0 0 80px rgba(168,85,247,0.05)" 
+                 boxShadow: "inset 0 0 20px rgba(99,102,241,0.02), 0 0 20px rgba(168,85,247,0.02)" 
                }}
              >
                <motion.div 
@@ -102,10 +102,11 @@ const LandingPage = ({ onStart, onOpenPrivacy }: { onStart: () => void, onOpenPr
            className="absolute bottom-10 right-10 md:top-[45%] md:-translate-y-1/2 md:right-[15%] z-10 pointer-events-none origin-center"
         >
           <motion.div
-             className="w-56 h-56 md:w-[350px] md:h-[350px] rounded-full shadow-[0_0_150px_rgba(99,102,241,0.5)] overflow-hidden relative pointer-events-auto"
+             className="w-56 h-56 md:w-[350px] md:h-[350px] rounded-full overflow-hidden relative pointer-events-auto"
              initial={{ scale: 0.5, opacity: 0 }}
              animate={{ scale: 1, opacity: 1 }}
              transition={{ duration: 1.5, type: "spring", bounce: 0.4 }}
+             style={{ isolation: 'isolate' }}
           >
              <motion.div 
                className="w-full h-full"
@@ -113,7 +114,7 @@ const LandingPage = ({ onStart, onOpenPrivacy }: { onStart: () => void, onOpenPr
                transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
                style={{ background: "radial-gradient(circle at 40% 40%, rgba(255,255,255,0.9) 0%, rgba(139,92,246,0.8) 15%, rgba(67,56,202,0.95) 40%, #030014 90%)" }}
              />
-             <div className="absolute inset-0 opacity-[0.15] mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%221.5%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E')" }} />
+             <div className="hidden md:block absolute inset-0 opacity-[0.15] mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%221.5%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E')" }} />
              <div className="absolute inset-0 rounded-full border-[1px] border-white/20 shadow-[inset_0_20px_50px_rgba(255,255,255,0.2)] pointer-events-none" />
           </motion.div>
 
@@ -211,7 +212,7 @@ const LandingPage = ({ onStart, onOpenPrivacy }: { onStart: () => void, onOpenPr
                className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-10 mt-32"
             >
                {/* Card 1 */}
-               <div className="bg-slate-900/10 backdrop-blur-3xl border border-white/10 p-8 rounded-[2rem] shadow-xl hover:bg-slate-900/40 transition-colors">
+               <div className="bg-slate-900/10 shadow-md border border-white/10 p-8 rounded-[2rem] shadow-xl hover:bg-slate-900/40 transition-colors">
                   <div className="w-14 h-14 rounded-2xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center mb-6 shadow-inner text-indigo-400">
                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                   </div>
@@ -219,7 +220,7 @@ const LandingPage = ({ onStart, onOpenPrivacy }: { onStart: () => void, onOpenPr
                   <p className="text-slate-400 text-base leading-relaxed font-light">Instantly analyze your public endpoints for missing security headers, vulnerable cryptographic protocols, and data privacy structural gaps.</p>
                </div>
                {/* Card 2 */}
-               <div className="bg-slate-900/10 backdrop-blur-3xl border border-white/10 p-8 rounded-[2rem] shadow-xl hover:bg-slate-900/40 transition-colors md:translate-y-12">
+               <div className="bg-slate-900/10 shadow-md border border-white/10 p-8 rounded-[2rem] shadow-xl hover:bg-slate-900/40 transition-colors md:translate-y-12">
                   <div className="w-14 h-14 rounded-2xl bg-fuchsia-500/20 border border-fuchsia-500/30 flex items-center justify-center mb-6 shadow-inner text-fuchsia-400">
                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
                   </div>
@@ -227,7 +228,7 @@ const LandingPage = ({ onStart, onOpenPrivacy }: { onStart: () => void, onOpenPr
                   <p className="text-slate-400 text-base leading-relaxed font-light">Your technical results are mathematically weighed across algorithmic multi-dimensional parameters to yield strict enterprise readiness grades (A - F).</p>
                </div>
                {/* Card 3 */}
-               <div className="bg-slate-900/10 backdrop-blur-3xl border border-white/10 p-8 rounded-[2rem] shadow-xl hover:bg-slate-900/40 transition-colors md:translate-y-24">
+               <div className="bg-slate-900/10 shadow-md border border-white/10 p-8 rounded-[2rem] shadow-xl hover:bg-slate-900/40 transition-colors md:translate-y-24">
                   <div className="w-14 h-14 rounded-2xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center mb-6 shadow-inner text-emerald-400">
                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
                   </div>
@@ -296,6 +297,9 @@ const LandingPage = ({ onStart, onOpenPrivacy }: { onStart: () => void, onOpenPr
                Start Compliance Protocol
                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
             </motion.button>
+            <div className="absolute bottom-10 px-6 text-center w-full text-slate-500/80 text-[10px] sm:text-xs font-semibold tracking-[0.2em] uppercase z-10 pointer-events-none">
+               * Application under development. Manual analysis recommended.
+            </div>
          </div>
 
       </div>
@@ -555,11 +559,11 @@ export default function Home() {
           {/* =========================================
               DASHBOARD AMBIENT BACKGROUND GLOWS
               ========================================= */}
-          <div className="absolute top-0 left-[-10%] w-[50vw] h-[50vh] bg-indigo-600/10 rounded-[100%] blur-[120px] pointer-events-none mix-blend-screen" />
-          <div className="absolute bottom-0 right-[-10%] w-[50vw] h-[50vh] bg-fuchsia-600/10 rounded-[100%] blur-[120px] pointer-events-none mix-blend-screen" />
+          <div className="absolute top-0 left-[-10%] w-[50vw] h-[50vh] bg-indigo-600/20 rounded-[100%] blur-3xl md:blur-[120px] pointer-events-none" />
+          <div className="absolute bottom-0 right-[-10%] w-[50vw] h-[50vh] bg-fuchsia-600/20 rounded-[100%] blur-3xl md:blur-[120px] pointer-events-none" />
           
           <motion.div
-             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full pointer-events-none opacity-[0.02] mix-blend-screen"
+             className="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full pointer-events-none opacity-[0.02] mix-blend-screen"
              animate={{ rotate: 360 }}
              transition={{ duration: 150, repeat: Infinity, ease: "linear" }}
              style={{ background: "conic-gradient(from 0deg, transparent, rgba(99,102,241,1) 20%, transparent 40%, rgba(168,85,247,1) 60%, transparent 80%)" }}
@@ -574,6 +578,12 @@ export default function Home() {
             ← Exit App
           </button>
 
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-50 w-full text-center pointer-events-none opacity-80 px-4">
+             <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 drop-shadow-md">
+               * Application under development. Manual analysis recommended.
+             </span>
+          </div>
+
           {/* Interactive Mouse Glow - hidden on mobile */}
           <motion.div
             style={{ x: smoothMouseX, y: smoothMouseY }}
@@ -587,7 +597,7 @@ export default function Home() {
             className="w-full max-w-7xl relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 flex-1 lg:h-[90vh]"
           >
             {/* SIDEBAR NAVIGATION */}
-            <div className="lg:col-span-3 rounded-3xl lg:rounded-[2rem] bg-slate-900/80 backdrop-blur-3xl border border-fuchsia-500/20 shadow-[0_20px_50px_rgba(0,0,0,0.8),inset_0_2px_2px_rgba(255,255,255,0.1)] p-5 lg:p-8 flex flex-col gap-6 lg:gap-10 z-20 mt-12 lg:mt-0 relative overflow-hidden">
+            <div className="lg:col-span-3 rounded-3xl lg:rounded-[2rem] bg-slate-900/80 shadow-2xl border border-fuchsia-500/20 shadow-[0_20px_50px_rgba(0,0,0,0.8),inset_0_2px_2px_rgba(255,255,255,0.1)] p-5 lg:p-8 flex flex-col gap-6 lg:gap-10 z-20 mt-12 lg:mt-0 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 blur-3xl rounded-full" />
               
               <motion.div whileHover={{ scale: 1.02 }} className="cursor-default relative z-10">
@@ -612,12 +622,12 @@ export default function Home() {
             </div>
 
             {/* MAIN CONTENT AREA */}
-            <div className="lg:col-span-9 rounded-3xl lg:rounded-[2rem] bg-slate-950/80 backdrop-blur-3xl border border-indigo-500/20 shadow-[0_20px_80px_rgba(0,0,0,0.8),inset_0_2px_2px_rgba(255,255,255,0.1)] overflow-hidden relative flex flex-col h-[75vh] lg:h-full z-20">
+            <div className="lg:col-span-9 rounded-3xl lg:rounded-[2rem] bg-slate-950/80 shadow-2xl border border-indigo-500/20 shadow-[0_20px_80px_rgba(0,0,0,0.8),inset_0_2px_2px_rgba(255,255,255,0.1)] overflow-hidden relative flex flex-col h-[75vh] lg:h-full z-20">
               
               {/* High-tech animated grid overlay */}
               <div className="absolute inset-0 z-0 opacity-30 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at center, rgba(168,85,247,0.15) 0%, transparent 70%)" }} />
-              <motion.div className="absolute inset-0 z-0 opacity-[0.06] pointer-events-none" style={{ backgroundPositionY: gridY, backgroundImage: "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
-              <div className="absolute inset-0 opacity-[0.06] pointer-events-none mix-blend-overlay z-0" style={{backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')"}}></div>
+              <motion.div className="absolute -inset-[200px] z-0 opacity-[0.06] pointer-events-none will-change-transform" style={{ y: gridY, backgroundImage: "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
+              <div className="hidden md:block absolute inset-0 opacity-[0.06] pointer-events-none mix-blend-overlay z-0" style={{backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')"}}></div>
               
               {/* Interactive Holographic Mechanics (Scroll Bound) */}
               <motion.div 
@@ -740,7 +750,7 @@ export default function Home() {
                                 <ul className="space-y-4 relative z-10">
                                   {result.missing_security.length > 0 ? result.missing_security.map((item, i) => (
                                     <li key={i} className="text-sm text-slate-300 flex items-start gap-4 p-3 bg-white/5 rounded-xl border border-white/5 font-medium"><span className="text-red-500 font-bold mt-0.5">✗</span> <span className="leading-relaxed">{item}</span></li>
-                                  )) : <li className="text-sm text-slate-500 italic p-3 bg-white/5 rounded-xl border border-white/5">No vulnerabilities found!</li>}
+                                  )) : <li className="text-sm text-slate-500 italic p-3 bg-white/5 rounded-xl border border-white/5">No basic security misconfigurations detected (header-level scan)</li>}
                                 </ul>
                               </motion.div>
                               
@@ -837,7 +847,7 @@ export default function Home() {
                         <div className="sticky bottom-0 left-0 right-0 pt-16 pb-2 pointer-events-none z-30 mt-auto flex justify-center">
                            <motion.div 
                               whileHover={{ y: -2 }}
-                              className="bg-slate-900/40 backdrop-blur-3xl border border-white/20 rounded-3xl p-3 sm:p-5 flex flex-col sm:flex-row items-center gap-4 justify-between shadow-[0_-10px_40px_rgba(0,0,0,0.8)] pointer-events-auto"
+                              className="bg-slate-900/40 shadow-md border border-white/20 rounded-3xl p-3 sm:p-5 flex flex-col sm:flex-row items-center gap-4 justify-between shadow-[0_-10px_40px_rgba(0,0,0,0.8)] pointer-events-auto"
                            >
                               <div className="flex items-center gap-4 px-2 sm:px-4 w-full sm:w-auto justify-between sm:justify-start">
                                  <div className="flex items-center gap-4">
