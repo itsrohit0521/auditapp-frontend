@@ -8,7 +8,7 @@ import autoTable from "jspdf-autotable";
 import LiquidBackground from "../LiquidBackground";
 import { FRAMEWORK_QUESTIONS } from "./data/frameworks";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://auditapp-backend.onrender.com";
 
 /* ============================================================
    TYPES
@@ -400,10 +400,30 @@ export default function Home() {
     }
 
     try {
-      const res = await axios.post(`${API_URL}/scan`, { url: targetUrl });
+      const finalUrl = `${API_URL}/scan`;
+      const payload = { url: targetUrl };
+
+      // Requirement 5: Add console logging BEFORE the request
+      console.log("--- REQUEST DEBUG INFO ---");
+      console.log("Final URL:", finalUrl);
+      console.log("Payload:", payload);
+
+      const res = await axios.post(finalUrl, payload, {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+      
+      console.log("Response Received:", res.data);
+      console.log("--------------------------");
+
       setResult(res.data);
-    } catch (err) {
-      console.error("Backend Unreachable.", err);
+    } catch (err: any) {
+      console.error("--- REQUEST FAILED ---");
+      console.error("Error Object:", err);
+      console.error("Error Data:", err.response?.data);
+      console.log("----------------------");
+      
       // Fallback object explicitly conveying failure state.
       setResult({
         error: "Failed to connect to the compliance scanning engine. Backend could be down.",
