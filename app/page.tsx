@@ -8,13 +8,14 @@ import autoTable from "jspdf-autotable";
 import LiquidBackground from "../LiquidBackground";
 import { FRAMEWORK_QUESTIONS } from "./data/frameworks";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://auditapp-backend.onrender.com";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
 
 /* ============================================================
    TYPES
    ============================================================ */
 
 type ScanResult = {
+  error?: string;
   privacy_score: number;
   security_score: number;
   overall_score: number;
@@ -393,7 +394,7 @@ export default function Home() {
     setLoading(true);
     setResult(null);
 
-    let targetUrl = url;
+    let targetUrl = url.trim();
     if (!/^https?:\/\//i.test(targetUrl)) {
       targetUrl = `https://${targetUrl}`;
     }
@@ -401,70 +402,19 @@ export default function Home() {
     try {
       const res = await axios.post(`${API_URL}/scan`, { url: targetUrl });
       setResult(res.data);
-    } catch {
-      // Fallback data if Render backend is sleeping or unreachable
-      console.warn("Backend Unreachable. Generating Deterministic Simulation Report based on URL.");
-      
-      // Simple hash function for the URL to generate pseudo-random deterministic numbers
-      let hash = 0;
-      for (let i = 0; i < targetUrl.length; i++) {
-        hash = targetUrl.charCodeAt(i) + ((hash << 5) - hash);
-      }
-      
-      // Generate deterministic scores based on the hash (between 40 and 99)
-      const secScore = 40 + Math.abs(hash % 60);
-      const privScore = 40 + Math.abs((hash >> 3) % 60);
-      const overall = Math.floor((secScore + privScore) / 2);
-      
-      // Proper grading mechanism mirroring the actual backend logic
-      let riskGrade = "F";
-      if (overall >= 90) riskGrade = "A";
-      else if (overall >= 75) riskGrade = "B";
-      else if (overall >= 50) riskGrade = "C";
-      else if (overall >= 25) riskGrade = "D";
-
-      const allSecurity = [
-        "HSTS (HTTPS enforcement)",
-        "Content Security Policy",
-        "Clickjacking Protection",
-        "MIME Sniffing Protection",
-        "Referrer Policy"
-      ];
-
-      const allPrivacy = [
-        "Consent",
-        "Data Retention",
-        "User Rights",
-        "Breach Notification",
-        "Data Sharing",
-        "Cookies"
-      ];
-
-      const detected_sec: string[] = [];
-      const missing_sec: string[] = [];
-      allSecurity.forEach((item, idx) => {
-         const isFound = Math.abs((hash ^ (idx * 313)) % 100) < secScore;
-         if (isFound) detected_sec.push(item);
-         else missing_sec.push(item);
-      });
-
-      const detected_priv: string[] = [];
-      const missing_priv: string[] = [];
-      allPrivacy.forEach((item, idx) => {
-         const isFound = Math.abs((hash ^ (idx * 521)) % 100) < privScore;
-         if (isFound) detected_priv.push(item);
-         else missing_priv.push(item);
-      });
-
+    } catch (err) {
+      console.error("Backend Unreachable.", err);
+      // Fallback object explicitly conveying failure state.
       setResult({
-        overall_score: overall,
-        security_score: secScore,
-        privacy_score: privScore,
-        risk_grade: riskGrade,
-        detected_security: detected_sec,
-        missing_security: missing_sec,
-        detected_privacy: detected_priv,
-        missing_privacy: missing_priv
+        error: "Failed to connect to the compliance scanning engine. Backend could be down.",
+        overall_score: 0,
+        security_score: 0,
+        privacy_score: 0,
+        risk_grade: "N/A",
+        detected_security: [],
+        missing_security: [],
+        detected_privacy: [],
+        missing_privacy: []
       });
     }
     setLoading(false);
@@ -706,6 +656,15 @@ export default function Home() {
                             animate={{ opacity: 1, y: 0 }}
                             className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6 mt-4 lg:mt-6"
                           >
+                            {result.error && (
+                               <div className="md:col-span-3 bg-red-500/10 border border-red-500/50 p-4 rounded-xl flex items-center gap-3">
+                                  <div className="w-8 h-8 rounded-full bg-red-500/20 flex items-center justify-center shrink-0">
+                                    <span className="text-red-400 font-bold">!</span>
+                                  </div>
+                                  <p className="text-red-400 text-sm font-medium">{result.error}</p>
+                               </div>
+                            )}
+
                             <ScoreCard title="Overall Risk Score" score={result.overall_score} delay={0.1} />
                             <ScoreCard title="Security Posture" score={result.security_score} delay={0.2} />
                             <ScoreCard title="Privacy Index" score={result.privacy_score} delay={0.3} />
