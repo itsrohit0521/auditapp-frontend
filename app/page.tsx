@@ -650,6 +650,11 @@ export default function Home() {
                             <input
                               value={url}
                               onChange={(e) => setUrl(e.target.value)}
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter' && url && !loading) {
+                                  runScan();
+                                }
+                              }}
                               placeholder="https://example.com"
                               className="w-full bg-transparent p-4 sm:p-6 text-base sm:text-lg text-white placeholder-slate-500 outline-none font-medium text-center sm:text-left"
                             />
