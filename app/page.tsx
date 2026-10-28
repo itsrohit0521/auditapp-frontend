@@ -459,34 +459,56 @@ export default function Home() {
   };
 
   /* ASSESSMENT */
-  const runAssessment = async () => {
+  const runAssessment = () => {
+    // Validate all questions are answered
     const unanswered = questions.filter(q => !answers[q.id]);
-    if(unanswered.length > 0) {
-      alert(`Please answer all questions to calculate compliance correctly. (${unanswered.length} remaining)`);
+    if (unanswered.length > 0) {
+      alert(`Please answer all ${questions.length} questions before submitting. (${unanswered.length} remaining)`);
       return;
     }
 
-    const formatted: Record<number, boolean> = {};
-    Object.keys(answers).forEach((key) => {
-      formatted[Number(key)] = answers[Number(key)] === "Yes";
+    // --- Local weighted scoring engine ---
+    // totalWeight = sum of all question weights
+    // failedWeight = sum of weights for questions answered "No"
+    // deficiencyPercent = (failedWeight / totalWeight) * 100
+    // maturityPercent   = 100 - deficiencyPercent
+    
+    let totalWeight = 0;
+    let failedWeight = 0;
+
+    questions.forEach((q) => {
+      totalWeight += q.weight;
+      if (answers[q.id] === "No") {
+        failedWeight += q.weight;
+      }
     });
 
-    try {
-      const res = await axios.post(`${API_URL}/self-assessment`, {
-        framework,
-        answers: formatted,
-      });
-      setAssessmentResult(res.data);
-    } catch {
-      console.warn("Backend Unreachable. Generating Simulation Report.");
-      // Fallback calculation logic for demonstration
-      const yesVotes = Object.values(formatted).filter(Boolean).length;
-      const percentage = Math.round((yesVotes / Object.keys(formatted).length) * 100);
-      setAssessmentResult({
-        risk_level: percentage > 80 ? "Low Risk" : percentage > 50 ? "Medium Risk" : "High Risk",
-        risk_percentage: 100 - percentage
-      });
+    const deficiencyPercent = totalWeight > 0 ? Math.round((failedWeight / totalWeight) * 100) : 0;
+    const maturityPercent = 100 - deficiencyPercent;
+
+    // Maturity level bands (based on compliance score, not risk):
+    // 85–100% -> EXCEPTIONAL (green)
+    // 65–84%  -> HIGH        (teal)
+    // 40–64%  -> MEDIUM      (yellow)
+    // 20–39%  -> LOW         (orange)
+    // 0–19%   -> CRITICAL    (red)
+    let maturityLabel: string;
+    if (maturityPercent >= 85) {
+      maturityLabel = "EXCEPTIONAL";
+    } else if (maturityPercent >= 65) {
+      maturityLabel = "HIGH";
+    } else if (maturityPercent >= 40) {
+      maturityLabel = "MEDIUM";
+    } else if (maturityPercent >= 20) {
+      maturityLabel = "LOW";
+    } else {
+      maturityLabel = "CRITICAL";
     }
+
+    setAssessmentResult({
+      risk_level: maturityLabel,
+      risk_percentage: deficiencyPercent,
+    });
   };
 
   // Nav Item layout
@@ -881,8 +903,11 @@ export default function Home() {
                                      <div className="bg-slate-950/70 p-8 rounded-[1.5rem] border border-white/10 shadow-inner">
                                         <p className="text-xs lg:text-sm font-bold text-slate-400 mb-3 uppercase tracking-widest">Maturity Level</p>
                                         <p className={`text-4xl lg:text-5xl font-black ${
-                                          assessmentResult.risk_level.includes("Low") ? "text-emerald-400 drop-shadow-[0_0_15px_rgba(52,211,153,0.5)]" :
-                                          assessmentResult.risk_level.includes("Medium") ? "text-yellow-400 drop-shadow-[0_0_15px_rgba(250,204,21,0.5)]" : "text-red-400 drop-shadow-[0_0_15px_rgba(248,113,113,0.5)]"
+                                          assessmentResult.risk_level === "EXCEPTIONAL" ? "text-emerald-400 drop-shadow-[0_0_15px_rgba(52,211,153,0.5)]" :
+                                          assessmentResult.risk_level === "HIGH" ? "text-teal-400 drop-shadow-[0_0_15px_rgba(45,212,191,0.5)]" :
+                                          assessmentResult.risk_level === "MEDIUM" ? "text-yellow-400 drop-shadow-[0_0_15px_rgba(250,204,21,0.5)]" :
+                                          assessmentResult.risk_level === "LOW" ? "text-orange-400 drop-shadow-[0_0_15px_rgba(251,146,60,0.5)]" :
+                                          "text-red-400 drop-shadow-[0_0_15px_rgba(248,113,113,0.5)]"
                                         }`}>{assessmentResult.risk_level}</p>
                                      </div>
                                      <div className="bg-slate-950/70 p-8 rounded-[1.5rem] border border-white/10 shadow-inner">
